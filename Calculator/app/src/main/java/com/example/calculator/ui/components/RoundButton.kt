@@ -26,7 +26,7 @@ fun RoundButton(
     modifier: Modifier = Modifier,
     text: String,
     color: Color = Pink80,
-    fontSize: TextUnit = 30.sp
+    fontSize: TextUnit
 ){
     Box(
         modifier = Modifier

@@ -29,7 +29,7 @@ import com.example.calculator.ui.components.RoundButton
 import com.example.calculator.ui.components.SymbolButton
 import android.app.Activity
 import android.content.pm.ActivityInfo
-
+import androidx.compose.ui.unit.sp
 
 
 @Composable
@@ -37,22 +37,24 @@ fun CalculatorApp(viewModel: CalculatorViewModel = CalculatorViewModel()){
 
     val buttons = listOf(
         ButtonConfig(text = "C", onClick = { viewModel.onClearClicked() }),
-        ButtonConfig(text = "()", onClick = { viewModel.onSymbolClicked("()") }),
+        ButtonConfig(text = "( )", onClick = { viewModel.onSymbolClicked("()") }),
         ButtonConfig(text = "%", onClick = { viewModel.onSymbolClicked("%") }),
-        ButtonConfig(text = "/", onClick = { viewModel.onSymbolClicked("/") }),
+        ButtonConfig(text = "÷", onClick = { viewModel.onSymbolClicked("/") },
+            fontSize = 40.sp),
         ButtonConfig(text = "7", onClick = { viewModel.onSymbolClicked("7") }),
         ButtonConfig(text = "8", onClick = { viewModel.onSymbolClicked("8") }),
         ButtonConfig(text = "9", onClick = { viewModel.onSymbolClicked("9") }),
-        ButtonConfig(text = "*", onClick = { viewModel.onSymbolClicked("*") }),
+        ButtonConfig(text = "×", onClick = { viewModel.onSymbolClicked("*") },
+            fontSize = 40.sp),
         ButtonConfig(text = "4", onClick = { viewModel.onSymbolClicked("4") }),
         ButtonConfig(text = "5", onClick = { viewModel.onSymbolClicked("5") }),
         ButtonConfig(text = "6", onClick = { viewModel.onSymbolClicked("6") }),
-        ButtonConfig(text = "-", onClick = { viewModel.onSymbolClicked("-") }),
+        ButtonConfig(text = "—", onClick = { viewModel.onSymbolClicked("-") }),
         ButtonConfig(text = "1", onClick = { viewModel.onSymbolClicked("1") }),
         ButtonConfig(text = "2", onClick = { viewModel.onSymbolClicked("2") }),
         ButtonConfig(text = "3", onClick = { viewModel.onSymbolClicked("3") }),
         ButtonConfig(text = "+", onClick = { viewModel.onSymbolClicked("+") }),
-        ButtonConfig(text = "+/-", onClick = { viewModel.onSymbolClicked("+/-") }),
+        ButtonConfig(text = "+/–", onClick = { viewModel.onSymbolClicked("+/-") }),
         ButtonConfig(text = "0", onClick = { viewModel.onSymbolClicked("0") }),
         ButtonConfig(text = ",", onClick = { viewModel.onSymbolClicked(".") }),
         ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked() }),
@@ -130,7 +132,8 @@ fun CalculatorApp(viewModel: CalculatorViewModel = CalculatorViewModel()){
                         modifier = Modifier
                             .weight(1f)
                             .aspectRatio(1f)
-                            .clickable { button.onClick() }
+                            .clickable { button.onClick() },
+                        fontSize = button.fontSize
                     )
 
                 }
