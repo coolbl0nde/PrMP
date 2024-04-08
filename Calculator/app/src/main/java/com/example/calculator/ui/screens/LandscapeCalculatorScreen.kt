@@ -32,40 +32,48 @@ import com.example.calculator.ui.components.SymbolButton
 fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
 
     val buttons = listOf(
-        ButtonConfig(text = "sin", onClick = { viewModel.onClearClicked() }),
-        ButtonConfig(text = "cos", onClick = { viewModel.onClearClicked() }),
+        ButtonConfig(text = "sin", onClick = { viewModel.onSymbolClicked("sin(") }),
+        ButtonConfig(text = "cos", onClick = { viewModel.onSymbolClicked("cos(") }),
         ButtonConfig(text = "C", onClick = { viewModel.onClearClicked() }),
-        ButtonConfig(text = "()", onClick = { /* обработка нажатия */ }),
+        ButtonConfig(text = "( )", onClick = { viewModel.onSymbolClicked("()") }),
         ButtonConfig(text = "%", onClick = { viewModel.onSymbolClicked("%") }),
-        ButtonConfig(text = "/", onClick = { viewModel.onSymbolClicked("/") }),
+        ButtonConfig(text = "÷", onClick = { viewModel.onSymbolClicked("/") }),
+        ButtonConfig(text = "1/x", onClick = { viewModel.onSymbolClicked("1/") }),
+        ButtonConfig(text = "√", onClick = { viewModel.onSymbolClicked("sqrt(") }),
         ButtonConfig(text = "7", onClick = { viewModel.onSymbolClicked("7") }),
         ButtonConfig(text = "8", onClick = { viewModel.onSymbolClicked("8") }),
         ButtonConfig(text = "9", onClick = { viewModel.onSymbolClicked("9") }),
-        ButtonConfig(text = "*", onClick = { viewModel.onSymbolClicked("*") }),
-        ButtonConfig(text = "C", onClick = { viewModel.onClearClicked() }),
-        ButtonConfig(text = "C", onClick = { viewModel.onClearClicked() }),
+        ButtonConfig(text = "×", onClick = { viewModel.onSymbolClicked("*") }),
+        ButtonConfig(text = "ln", onClick = { viewModel.onSymbolClicked("ln(") }),
+        ButtonConfig(text = "log", onClick = { viewModel.onSymbolClicked("log(10,") }),
         ButtonConfig(text = "4", onClick = { viewModel.onSymbolClicked("4") }),
         ButtonConfig(text = "5", onClick = { viewModel.onSymbolClicked("5") }),
         ButtonConfig(text = "6", onClick = { viewModel.onSymbolClicked("6") }),
-        ButtonConfig(text = "-", onClick = { viewModel.onSymbolClicked("-") }),
+        ButtonConfig(text = "—", onClick = { viewModel.onSymbolClicked("-") }),
+        ButtonConfig(text = "x²", onClick = { viewModel.onSymbolClicked("^2") }),
+        ButtonConfig(text = "x^y", onClick = { viewModel.onSymbolClicked("^") }),
         ButtonConfig(text = "1", onClick = { viewModel.onSymbolClicked("1") }),
         ButtonConfig(text = "2", onClick = { viewModel.onSymbolClicked("2") }),
         ButtonConfig(text = "3", onClick = { viewModel.onSymbolClicked("3") }),
         ButtonConfig(text = "+", onClick = { viewModel.onSymbolClicked("+") }),
-        ButtonConfig(text = "+/-", onClick = { /* обработка нажатия */ }),
+        ButtonConfig(text = "|x|", onClick = { viewModel.onSymbolClicked("") }),
+        ButtonConfig(text = "π", onClick = { viewModel.onSymbolClicked("") }),
+        ButtonConfig(text = "+/–", onClick = { viewModel.onSymbolClicked("+/-") }),
         ButtonConfig(text = "0", onClick = { viewModel.onSymbolClicked("0") }),
         ButtonConfig(text = ",", onClick = { viewModel.onSymbolClicked(".") }),
         ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked() }),
     )
 
+    val rows = buttons.chunked(6)
+
     Column(modifier = Modifier.fillMaxHeight()) {
 
         CalculatorDisplay(
-            value = "123",
+            value = viewModel.userInput,
             modifier = Modifier.weight(2f)
         )
 
-        Text(text = "хуй")
+        Text(text = viewModel.output)
 
         Row(
             modifier = Modifier
@@ -89,7 +97,7 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
                 modifier = Modifier
                     .size(30.dp),
                 onClick = {
-                    //viewModel.onBackspaceClicked()
+                    viewModel.onBackspaceClicked()
                 }
             )
 
@@ -98,6 +106,28 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
                 thickness = 1.dp,
                 modifier = Modifier.padding(5.dp)
             )
+        }
+
+        rows.forEach { row ->
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 5.dp)
+                    .weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                row.forEach { button ->
+                    RoundButton(
+                        text = button.text,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { button.onClick() },
+                        fontSize = 20.sp
+                    )
+
+                }
+            }
+
         }
 
         /*Row(

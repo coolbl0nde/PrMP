@@ -45,6 +45,17 @@ class CalculatorViewModel : ViewModel(){
             userInput = userInput.dropLast(1) + "(-" + userInput.last()
             hasOpeningBracket = !hasOpeningBracket
             symbol = ""
+        } else if (symbol == "sin(" || symbol == "cos(" || symbol == "ln("){
+            mathExpression += symbol
+            hasOpeningBracket = !hasOpeningBracket
+        } else if (symbol == "sqrt("){
+            hasOpeningBracket = !hasOpeningBracket
+            mathExpression += symbol
+            symbol = "√("
+        } else if (symbol == "log(10,"){
+            hasOpeningBracket = !hasOpeningBracket
+            mathExpression += symbol
+            symbol = "log("
         } else {
             mathExpression += symbol
         }
@@ -64,7 +75,8 @@ class CalculatorViewModel : ViewModel(){
     fun onEqualClicked(){
         val result = evaluateMathExpression().toString()
 
-        userInput = result
+        userInput = mathExpression
+        //userInput = result
     }
 
 
