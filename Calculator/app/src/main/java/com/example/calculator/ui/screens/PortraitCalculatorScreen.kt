@@ -35,6 +35,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun CalculatorApp(viewModel: CalculatorViewModel = CalculatorViewModel()){
 
+    val context = LocalContext.current
+
     val buttons = listOf(
         ButtonConfig(text = "C", onClick = { viewModel.onClearClicked() }),
         ButtonConfig(text = "( )", onClick = { viewModel.onSymbolClicked("()") }),
@@ -57,7 +59,7 @@ fun CalculatorApp(viewModel: CalculatorViewModel = CalculatorViewModel()){
         ButtonConfig(text = "+/–", onClick = { viewModel.onSymbolClicked("+/-") }),
         ButtonConfig(text = "0", onClick = { viewModel.onSymbolClicked("0") }),
         ButtonConfig(text = ",", onClick = { viewModel.onSymbolClicked(".") }),
-        ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked() }),
+        ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked(context) }),
     )
 
     val rows = buttons.chunked(4)

@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +31,8 @@ import com.example.calculator.ui.components.SymbolButton
 
 @Composable
 fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
+
+    val context = LocalContext.current
 
     val buttons = listOf(
         ButtonConfig(text = "sin", onClick = { viewModel.onSymbolClicked("sin(") }),
@@ -56,12 +59,10 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
         ButtonConfig(text = "2", onClick = { viewModel.onSymbolClicked("2") }),
         ButtonConfig(text = "3", onClick = { viewModel.onSymbolClicked("3") }),
         ButtonConfig(text = "+", onClick = { viewModel.onSymbolClicked("+") }),
-        ButtonConfig(text = "|x|", onClick = { viewModel.onSymbolClicked("") }),
-        ButtonConfig(text = "π", onClick = { viewModel.onSymbolClicked("") }),
         ButtonConfig(text = "+/–", onClick = { viewModel.onSymbolClicked("+/-") }),
         ButtonConfig(text = "0", onClick = { viewModel.onSymbolClicked("0") }),
         ButtonConfig(text = ",", onClick = { viewModel.onSymbolClicked(".") }),
-        ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked() }),
+        ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked(context) }, weight = 2f),
     )
 
     val rows = buttons.chunked(6)
@@ -84,7 +85,8 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
             SymbolButton(
                 iconId = R.drawable.outline_calculate,
                 modifier = Modifier
-                    .size(30.dp),
+                    .size(30.dp)
+                    .weight(1f),
                 onClick = {
                     //currentUI = "Landscape"
                 }
@@ -95,18 +97,20 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
             SymbolButton(
                 iconId = R.drawable.outline_backspace,
                 modifier = Modifier
-                    .size(30.dp),
+                    .size(30.dp)
+                    .weight(1f),
                 onClick = {
                     viewModel.onBackspaceClicked()
                 }
             )
 
-            Divider(
-                color = Color.Black,
-                thickness = 1.dp,
-                modifier = Modifier.padding(5.dp)
-            )
         }
+
+        Divider(
+            color = Color.Black,
+            thickness = 1.dp,
+            modifier = Modifier.padding(5.dp)
+        )
 
         rows.forEach { row ->
             Row (
@@ -120,7 +124,7 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
                     RoundButton(
                         text = button.text,
                         modifier = Modifier
-                            .weight(1f)
+                            .weight(button.weight)
                             .clickable { button.onClick() },
                         fontSize = 20.sp
                     )

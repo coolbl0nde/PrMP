@@ -1,8 +1,13 @@
 package com.example.calculator
 
+import android.content.Context
+import android.widget.Toast
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.mariuszgromada.math.mxparser.Expression
 
@@ -18,14 +23,21 @@ class CalculatorViewModel : ViewModel(){
 
     private var hasOpeningBracket by mutableStateOf(false)
 
-    var state = CalculatorModel()
-        private set
+    private val operators = listOf(
+        "+", "-", "*", "/", "^", "%", ".",
+    )
+
+    private var prevSymbol by mutableStateOf("")
 
     fun onSymbolClicked(originalSymbol: String){
 
         var symbol = originalSymbol
 
         val regex = Regex("\\(\\-\\d$")
+
+        if (this.operators.contains(symbol) && (this.operators.contains(prevSymbol) || prevSymbol.isEmpty())) {
+            return
+        }
 
         if (symbol == "%") {
             mathExpression += "/100"
@@ -45,7 +57,7 @@ class CalculatorViewModel : ViewModel(){
             userInput = userInput.dropLast(1) + "(-" + userInput.last()
             hasOpeningBracket = !hasOpeningBracket
             symbol = ""
-        } else if (symbol == "sin(" || symbol == "cos(" || symbol == "ln("){
+        } else if (symbol == "sin(" || symbol == "cos(" || symbol == "ln(" || symbol == "abs("){
             mathExpression += symbol
             hasOpeningBracket = !hasOpeningBracket
         } else if (symbol == "sqrt("){
@@ -61,6 +73,7 @@ class CalculatorViewModel : ViewModel(){
         }
 
         userInput += symbol
+        prevSymbol = symbol
 
         outputResult()
     }
@@ -69,14 +82,19 @@ class CalculatorViewModel : ViewModel(){
         userInput = ""
         output = ""
         mathExpression = ""
+        prevSymbol = ""
         hasOpeningBracket = false
     }
 
-    fun onEqualClicked(){
+
+    fun onEqualClicked(context: Context){
         val result = evaluateMathExpression().toString()
 
-        userInput = mathExpression
-        //userInput = result
+        if (result != "NaN"){
+            userInput = result
+        }else{
+            Toast.makeText(context, "Неверный формат", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
@@ -89,6 +107,8 @@ class CalculatorViewModel : ViewModel(){
 
             mathExpression = mathExpression.dropLast(1)
             userInput = userInput.dropLast(1)
+        } else{
+            prevSymbol = ""
         }
 
         outputResult()
@@ -109,6 +129,5 @@ class CalculatorViewModel : ViewModel(){
             output = ""
         }
     }
-
 
 }
