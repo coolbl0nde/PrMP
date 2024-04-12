@@ -29,6 +29,7 @@ import com.example.calculator.ui.components.RoundButton
 import com.example.calculator.ui.components.SymbolButton
 import android.app.Activity
 import android.content.pm.ActivityInfo
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 
@@ -74,10 +75,17 @@ fun CalculatorApp(viewModel: CalculatorViewModel = CalculatorViewModel()){
 
         CalculatorDisplay(
             value = viewModel.userInput,
-            modifier = Modifier.padding(top = 50.dp, bottom = 120.dp)
+            modifier = Modifier.padding(top = 50.dp, bottom = 100.dp)
         )
 
-        Text(text = viewModel.output)
+        Text(
+            text = viewModel.output,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp),
+            textAlign = TextAlign.End,
+            fontSize = 20.sp
+        )
 
         Row(
             modifier = Modifier

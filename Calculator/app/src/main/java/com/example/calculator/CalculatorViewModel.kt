@@ -2,12 +2,9 @@ package com.example.calculator
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.mariuszgromada.math.mxparser.Expression
 
@@ -19,15 +16,15 @@ class CalculatorViewModel : ViewModel(){
     var output by mutableStateOf("")
         private set
 
-    private var mathExpression by mutableStateOf("")
+    private var mathExpression = ""
 
-    private var hasOpeningBracket by mutableStateOf(false)
+    private var hasOpeningBracket = false
 
     private val operators = listOf(
         "+", "-", "*", "/", "^", "%", ".",
     )
 
-    private var prevSymbol by mutableStateOf("")
+    private var prevSymbol = ""
 
     fun onSymbolClicked(originalSymbol: String){
 
@@ -57,7 +54,7 @@ class CalculatorViewModel : ViewModel(){
             userInput = userInput.dropLast(1) + "(-" + userInput.last()
             hasOpeningBracket = !hasOpeningBracket
             symbol = ""
-        } else if (symbol == "sin(" || symbol == "cos(" || symbol == "ln(" || symbol == "abs("){
+        } else if (symbol == "sin(" || symbol == "cos(" || symbol == "ln("){
             mathExpression += symbol
             hasOpeningBracket = !hasOpeningBracket
         } else if (symbol == "sqrt("){
@@ -91,6 +88,11 @@ class CalculatorViewModel : ViewModel(){
         val result = evaluateMathExpression().toString()
 
         if (result != "NaN"){
+
+            if (result.endsWith(".0")){
+                result.dropLast(2)
+            }
+
             userInput = result
         }else{
             Toast.makeText(context, "Неверный формат", Toast.LENGTH_SHORT).show()
@@ -120,10 +122,12 @@ class CalculatorViewModel : ViewModel(){
     }
 
     private fun outputResult(){
-
         val result = evaluateMathExpression().toString()
 
         if (result != "NaN"){
+            if (result.endsWith(".0")){
+                result.dropLast(2)
+            }
             output = result
         }else{
             output = ""
