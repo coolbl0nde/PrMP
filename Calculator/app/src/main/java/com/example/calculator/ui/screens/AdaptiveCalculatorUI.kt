@@ -6,13 +6,13 @@ import androidx.compose.ui.platform.LocalConfiguration
 import com.example.calculator.CalculatorViewModel
 
 @Composable
-fun AdaptiveCalculatorUI() {
+fun AdaptiveCalculatorUI(viewModel: CalculatorViewModel, openCamera: () -> Unit) {
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     if (isLandscape) {
-        LandscapeUI(CalculatorViewModel())
+        LandscapeUI(viewModel, openCamera)
     } else {
-        CalculatorApp(CalculatorViewModel())
+        CalculatorApp(viewModel, openCamera)
     }
 }

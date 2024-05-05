@@ -11,7 +11,6 @@ import org.mariuszgromada.math.mxparser.Expression
 class CalculatorViewModel : ViewModel(){
 
     var userInput by mutableStateOf("")
-        private set
 
     var output by mutableStateOf("")
         private set

@@ -37,5 +37,5 @@ fun CalculatorDisplay(value: String, modifier: Modifier = Modifier){
 @Preview(showBackground = true)
 @Composable
 fun PreviewCalculatorApp2() {
-    CalculatorApp(CalculatorViewModel())
+    CalculatorApp(CalculatorViewModel(), openCamera = {})
 }

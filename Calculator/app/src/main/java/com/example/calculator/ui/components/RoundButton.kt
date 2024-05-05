@@ -57,5 +57,5 @@ fun RoundButton(
 @Preview(showBackground = true)
 @Composable
 fun PreviewCalculatorApp() {
-    CalculatorApp(CalculatorViewModel())
+    CalculatorApp(CalculatorViewModel(), openCamera = {})
 }

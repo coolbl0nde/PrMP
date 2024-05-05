@@ -27,14 +27,14 @@ import com.example.calculator.R
 import com.example.calculator.ui.components.CalculatorDisplay
 import com.example.calculator.ui.components.RoundButton
 import com.example.calculator.ui.components.SymbolButton
-import android.app.Activity
-import android.content.pm.ActivityInfo
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.example.calculator.MainActivity as MainActivity
 
 
 @Composable
-fun CalculatorApp(viewModel: CalculatorViewModel = CalculatorViewModel()){
+fun CalculatorApp(viewModel: CalculatorViewModel,
+                  openCamera: () -> Unit){
 
     val context = LocalContext.current
 
@@ -95,9 +95,7 @@ fun CalculatorApp(viewModel: CalculatorViewModel = CalculatorViewModel()){
                 iconId = R.drawable.outline_calculate,
                 modifier = Modifier
                     .weight(1f),
-                onClick = {
-                    currentUI = "Landscape"
-                }
+                onClick = openCamera
             )
 
             /*if (currentUI == "Landscape") {
@@ -156,5 +154,5 @@ fun CalculatorApp(viewModel: CalculatorViewModel = CalculatorViewModel()){
 @Preview(showBackground = true)
 @Composable
 fun PreviewCalculatorApp() {
-    CalculatorApp(CalculatorViewModel())
+    CalculatorApp(CalculatorViewModel(), openCamera = {})
 }
