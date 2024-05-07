@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,19 +26,19 @@ import com.example.calculator.ui.theme.Pink80
 fun RoundButton(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = Pink80,
     fontSize: TextUnit
 ){
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(50.dp))
-            .background(color)
+            .background(MaterialTheme.colorScheme.secondary)
             .then(modifier),
         contentAlignment = Alignment.Center
     ){
         Text(
             text = text,
-            fontSize = fontSize
+            fontSize = fontSize,
+            color = MaterialTheme.colorScheme.onSecondary
         )
     }
     /*Button(

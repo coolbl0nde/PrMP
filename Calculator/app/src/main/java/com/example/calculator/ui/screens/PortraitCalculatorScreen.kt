@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,7 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,7 +29,7 @@ import com.example.calculator.ui.components.RoundButton
 import com.example.calculator.ui.components.SymbolButton
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.example.calculator.MainActivity as MainActivity
+import com.example.calculator.ui.components.TopAppBar
 
 
 @Composable
@@ -69,20 +69,26 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
         mutableStateOf("")
     }
 
+
     Column (
         modifier = Modifier.fillMaxHeight()
     ) {
 
+        TopAppBar()
+
         CalculatorDisplay(
             value = viewModel.userInput,
-            modifier = Modifier.padding(top = 50.dp, bottom = 100.dp)
+            modifier = Modifier
+                .padding(top = 20.dp, bottom = 10.dp)
+                .weight(1.5f)
         )
 
         Text(
             text = viewModel.output,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 10.dp),
+                .padding(bottom = 10.dp)
+                .weight(0.5f),
             textAlign = TextAlign.End,
             fontSize = 20.sp
         )
@@ -90,6 +96,7 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(0.5f),
         ) {
             SymbolButton(
                 iconId = R.drawable.outline_calculate,
@@ -121,8 +128,8 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
         }
 
         Divider(
-            color = Color.Black,
-            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.primary,
+            thickness = 2.dp,
             modifier = Modifier.padding(10.dp)
         )
 
