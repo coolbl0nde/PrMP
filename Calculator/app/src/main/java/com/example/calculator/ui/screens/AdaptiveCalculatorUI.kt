@@ -4,13 +4,14 @@ import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import com.example.calculator.CalculatorViewModel
-import com.example.calculator.OperationStorageService
+import com.example.calculator.ThemeViewModel
+import com.example.calculator.services.OperationStorageService
 
 @Composable
 fun AdaptiveCalculatorUI(
     viewModel: CalculatorViewModel,
     openCamera: () -> Unit,
-    firestoreRepository: OperationStorageService
+    themeViewModel: ThemeViewModel
 ) {
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -18,6 +19,10 @@ fun AdaptiveCalculatorUI(
     if (isLandscape) {
         LandscapeUI(viewModel, openCamera)
     } else {
-        CalculatorApp(viewModel, openCamera, firestoreRepository)
+        CalculatorApp(
+            viewModel,
+            openCamera,
+            themeViewModel
+        )
     }
 }

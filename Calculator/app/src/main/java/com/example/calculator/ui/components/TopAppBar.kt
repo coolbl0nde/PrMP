@@ -16,14 +16,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.calculator.ui.theme.LocalTheme
+import com.example.calculator.ThemeViewModel
+import com.example.calculator.services.ThemeStorageService
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar(){
+fun TopAppBar(themeViewModel: ThemeViewModel){
 
     var showMenu by remember { mutableStateOf(false) }
-    val currentTheme = LocalTheme.current
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -49,18 +49,30 @@ fun TopAppBar(){
                 onDismissRequest = { showMenu = false }
             ) {
                 DropdownMenuItem(
-                    text = { Text(text = "barby core") },
+                    text = { Text(text = "pink") },
                     onClick = {
                         showMenu = false
-                        currentTheme.value = "pink"
+                        themeViewModel.setTheme("pink")
+                        //themeStorageService.saveTheme("pink")
+
                     }
                 )
 
                 DropdownMenuItem(
-                    text = { Text(text = "blue theme") },
+                    text = { Text(text = "blue") },
                     onClick = {
                         showMenu = false
-                        currentTheme.value = "blue"
+                        themeViewModel.setTheme("blue")
+                        //themeStorageService.saveTheme("blue")
+                    }
+                )
+
+                DropdownMenuItem(
+                    text = { Text(text = "light") },
+                    onClick = {
+                        showMenu = false
+                        themeViewModel.setTheme("light")
+                        //themeStorageService.saveTheme("light")
                     }
                 )
             }

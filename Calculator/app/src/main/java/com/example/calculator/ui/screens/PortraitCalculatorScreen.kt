@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.calculator.ButtonConfig
+import com.example.calculator.data.ButtonConfig
 import com.example.calculator.CalculatorViewModel
 import com.example.calculator.R
 import com.example.calculator.ui.components.CalculatorDisplay
@@ -29,14 +29,15 @@ import com.example.calculator.ui.components.RoundButton
 import com.example.calculator.ui.components.SymbolButton
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.example.calculator.OperationStorageService
+import com.example.calculator.ThemeViewModel
+import com.example.calculator.services.OperationStorageService
 import com.example.calculator.ui.components.TopAppBar
 
 
 @Composable
 fun CalculatorApp(viewModel: CalculatorViewModel,
                   openCamera: () -> Unit,
-                  operationStorageService: OperationStorageService
+                  themeViewModel: ThemeViewModel = ThemeViewModel()
 ){
 
     val context = LocalContext.current
@@ -64,7 +65,7 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
         ButtonConfig(text = "0", onClick = { viewModel.onSymbolClicked("0") }),
         ButtonConfig(text = ",", onClick = { viewModel.onSymbolClicked(".") }),
         ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked(
-            context, operationStorageService) }),
+            context) }),
     )
 
     val rows = buttons.chunked(4)
@@ -78,7 +79,7 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
         modifier = Modifier.fillMaxHeight()
     ) {
 
-        TopAppBar()
+        TopAppBar(themeViewModel)
 
         CalculatorDisplay(
             value = viewModel.userInput,
@@ -108,16 +109,6 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
                     .weight(1f),
                 onClick = openCamera
             )
-
-            /*if (currentUI == "Landscape") {
-                val context = LocalContext.current
-
-                (context as? Activity)?.let {
-                    it.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                }
-                LandscapeUI()
-                return
-            }*/
 
             Spacer(Modifier.weight(2f))
 
@@ -165,6 +156,5 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
 @Preview(showBackground = true)
 @Composable
 fun PreviewCalculatorApp() {
-    CalculatorApp(CalculatorViewModel(), openCamera = {},
-        operationStorageService = OperationStorageService())
+    CalculatorApp(CalculatorViewModel(), openCamera = {}, ThemeViewModel())
 }

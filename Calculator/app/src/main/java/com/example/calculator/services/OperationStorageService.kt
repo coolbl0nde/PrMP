@@ -1,10 +1,7 @@
-package com.example.calculator
+package com.example.calculator.services
 
-import android.util.Log
-import android.widget.Toast
 import com.example.calculator.data.CalculatorOperation
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 
 class OperationStorageService {

@@ -1,12 +1,14 @@
 package com.example.calculator
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.calculator.data.CalculatorOperation
+import com.example.calculator.services.OperationStorageService
 import org.mariuszgromada.math.mxparser.Expression
 
 class CalculatorViewModel : ViewModel(){
@@ -84,8 +86,9 @@ class CalculatorViewModel : ViewModel(){
     }
 
 
-    fun onEqualClicked(context: Context, operationStorageService: OperationStorageService){
+    fun onEqualClicked(context: Context){
         val result = evaluateMathExpression().toString()
+        val operationStorageService = OperationStorageService()
 
         if (result != "NaN"){
 
@@ -95,7 +98,9 @@ class CalculatorViewModel : ViewModel(){
 
             operationStorageService.addOperation(
                 CalculatorOperation(input = userInput, result = result),
-                onSuccess = { /* обработка успеха */ },
+                onSuccess = {
+                    Log.d("CalculatorViewModel", "Operation added successfully!")
+                            },
                 onFailure = { exception -> exception.printStackTrace() }
             )
 

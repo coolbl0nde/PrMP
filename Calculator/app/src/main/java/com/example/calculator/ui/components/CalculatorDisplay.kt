@@ -7,14 +7,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.calculator.ui.screens.CalculatorApp
 import com.example.calculator.CalculatorViewModel
-import com.example.calculator.OperationStorageService
+import com.example.calculator.services.OperationStorageService
 import com.example.calculator.ui.theme.Gray
 
 @Composable
@@ -41,6 +40,5 @@ fun CalculatorDisplay(value: String, modifier: Modifier = Modifier){
 @Preview(showBackground = true)
 @Composable
 fun PreviewCalculatorApp2() {
-    CalculatorApp(CalculatorViewModel(), openCamera = {},
-        operationStorageService = OperationStorageService())
+    CalculatorApp(CalculatorViewModel(), openCamera = {})
 }

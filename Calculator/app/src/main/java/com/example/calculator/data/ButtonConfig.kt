@@ -1,4 +1,4 @@
-package com.example.calculator
+package com.example.calculator.data
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.TextUnit
