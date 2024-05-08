@@ -36,9 +36,3 @@ fun SymbolButton(
         )
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewCalculatorApp3() {
-    CalculatorApp(CalculatorViewModel(), openCamera = {})
-}

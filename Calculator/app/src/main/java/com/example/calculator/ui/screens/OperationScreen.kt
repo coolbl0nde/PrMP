@@ -2,9 +2,13 @@ package com.example.calculator.ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -20,12 +24,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.calculator.services.OperationStorageService
 import com.example.calculator.data.CalculatorOperation
 import kotlinx.coroutines.launch
 
 @Composable
-fun OperationsScreen() {
+fun OperationScreen(navController: NavController) {
     val operations = remember { mutableStateListOf<CalculatorOperation>() }
     val coroutineScope = rememberCoroutineScope()
     val operationStorageService = OperationStorageService()
@@ -42,37 +47,69 @@ fun OperationsScreen() {
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        val scrollState = rememberScrollState()
 
-        Column {
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .padding(bottom = 20.dp)
+                .weight(1f)
+                .fillMaxHeight()
+        ) {
 
-            //TopAppBar(title = { /*TODO*/ })
-
-            for (operation in operations){
-                Text(
-                    "Input: ${operation.input}, Result: ${operation.result}",
+            for (operation in operations) {
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    textAlign = TextAlign.Center,
-                    style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                )
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = operation.input,
+                        style = TextStyle(fontSize = 14.sp),
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "= ${operation.result}",
+                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Button(
+                onClick = {
+                    operationStorageService.deleteOperations(
+                        onSuccess = {
+                            operations.clear()
+                        },
+                        onFailure = {}
+                    )
+                },
+                modifier = Modifier
+                    .padding(16.dp)
+            ) {
+                Text(text = "Очистить историю")
+            }
+
+            Button(
+                onClick = {
+                    navController.navigate("adaptiveCalculatorUI")
+                },
+                modifier = Modifier
+                    .padding(16.dp)
+            ) {
+                Text(text = "Выход")
             }
         }
-
-        Button(
-            onClick = { operationStorageService.deleteOperations(
-                onSuccess = {
-                    operations.clear()
-                },
-                onFailure = {}
-            ) },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(16.dp)
-        ) {
-            Text(text = "Очистить историю")
-        }
     }
-
 }
+

@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.calculator.data.ButtonConfig
 import com.example.calculator.CalculatorViewModel
@@ -29,15 +28,15 @@ import com.example.calculator.ui.components.RoundButton
 import com.example.calculator.ui.components.SymbolButton
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.calculator.ThemeViewModel
-import com.example.calculator.services.OperationStorageService
 import com.example.calculator.ui.components.TopAppBar
 
 
 @Composable
 fun CalculatorApp(viewModel: CalculatorViewModel,
-                  openCamera: () -> Unit,
-                  themeViewModel: ThemeViewModel = ThemeViewModel()
+                  themeViewModel: ThemeViewModel = ThemeViewModel(),
+                  navController: NavController
 ){
 
     val context = LocalContext.current
@@ -107,7 +106,14 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
                 iconId = R.drawable.outline_calculate,
                 modifier = Modifier
                     .weight(1f),
-                onClick = openCamera
+                onClick = { navController.navigate("cameraScreen") }
+            )
+
+            SymbolButton(
+                iconId = R.drawable.baseline_access_time_24,
+                modifier = Modifier
+                    .weight(1f),
+                onClick = { navController.navigate("operationScreen") }
             )
 
             Spacer(Modifier.weight(2f))
@@ -151,10 +157,4 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
 
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewCalculatorApp() {
-    CalculatorApp(CalculatorViewModel(), openCamera = {}, ThemeViewModel())
 }

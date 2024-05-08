@@ -28,8 +28,7 @@ import com.example.calculator.ui.components.RoundButton
 import com.example.calculator.ui.components.SymbolButton
 
 @Composable
-fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel(),
-                openCamera: () -> Unit) {
+fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
 
     val context = LocalContext.current
 
@@ -483,7 +482,7 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel(),
 }
 
 
-@Preview(
+/*@Preview(
     showBackground = true,
     uiMode = Configuration.UI_MODE_TYPE_TELEVISION,
     widthDp = 1920,
@@ -492,4 +491,4 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel(),
 @Composable
 fun PreviewCalculatorApp3() {
     LandscapeUI(openCamera = {})
-}
+}*/

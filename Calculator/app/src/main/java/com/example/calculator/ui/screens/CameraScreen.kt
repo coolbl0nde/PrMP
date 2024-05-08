@@ -33,15 +33,13 @@ import kotlin.coroutines.suspendCoroutine
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.navigation.NavController
 import java.io.OutputStream
 import kotlin.math.roundToInt
-import android.util.DisplayMetrics
-import android.view.WindowManager
-import androidx.compose.ui.unit.IntSize
 
 
 @Composable
-fun CameraPreviewScreen(viewModel: CalculatorViewModel, closeCamera: () -> Unit) {
+fun CameraScreen(viewModel: CalculatorViewModel, navController: NavController) {
     val lensFacing = CameraSelector.LENS_FACING_BACK
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
@@ -70,11 +68,11 @@ fun CameraPreviewScreen(viewModel: CalculatorViewModel, closeCamera: () -> Unit)
 
         Row {
             Button(onClick = { captureImage(
-                imageCapture, context, viewModel, closeCamera, scanArea!!
+                imageCapture, context, viewModel, navController, scanArea!!
             ) }) {
                 Text("Take Photo")
             }
-            Button(onClick = closeCamera) {
+            Button(onClick = {navController.navigate("adaptiveCalculatorUI")}) {
                 Text("Exit")
             }
         }
@@ -93,7 +91,7 @@ private fun captureImage(
     imageCapture: ImageCapture,
     context: Context,
     viewModel: CalculatorViewModel,
-    closeCamera: () -> Unit,
+    navController: NavController,
     scanArea: Rect
 ) {
     val name = "CameraxImage.jpeg"
@@ -128,7 +126,7 @@ private fun captureImage(
 
                     //context.contentResolver.delete(uri, null, null)
 
-                    closeCamera();
+                    navController.navigate("adaptiveCalculatorUI");
                 } else {
                     viewModel.userInput = "Image capture failed"
                 }
@@ -215,11 +213,4 @@ fun saveCroppedImage(
         }
     }
     return uri
-}
-
-
-@androidx.compose.ui.tooling.preview.Preview
-@Composable
-fun PreviewCameraApp() {
-    CameraPreviewScreen(viewModel = CalculatorViewModel(), closeCamera = {})
 }
