@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.calculator.data.CalculatorOperation
 import org.mariuszgromada.math.mxparser.Expression
 
 class CalculatorViewModel : ViewModel(){
@@ -83,7 +84,7 @@ class CalculatorViewModel : ViewModel(){
     }
 
 
-    fun onEqualClicked(context: Context){
+    fun onEqualClicked(context: Context, operationStorageService: OperationStorageService){
         val result = evaluateMathExpression().toString()
 
         if (result != "NaN"){
@@ -91,6 +92,12 @@ class CalculatorViewModel : ViewModel(){
             if (result.endsWith(".0")){
                 result.dropLast(2)
             }
+
+            operationStorageService.addOperation(
+                CalculatorOperation(input = userInput, result = result),
+                onSuccess = { /* обработка успеха */ },
+                onFailure = { exception -> exception.printStackTrace() }
+            )
 
             userInput = result
         }else{

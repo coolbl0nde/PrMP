@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.calculator.ui.screens.CalculatorApp
 import com.example.calculator.CalculatorViewModel
+import com.example.calculator.OperationStorageService
 
 @Composable
 fun SymbolButton(
@@ -40,5 +41,7 @@ fun SymbolButton(
 @Preview(showBackground = true)
 @Composable
 fun PreviewCalculatorApp3() {
-    CalculatorApp(CalculatorViewModel(), openCamera = {})
+    CalculatorApp(CalculatorViewModel(), openCamera = {},
+        operationStorageService = OperationStorageService()
+    )
 }

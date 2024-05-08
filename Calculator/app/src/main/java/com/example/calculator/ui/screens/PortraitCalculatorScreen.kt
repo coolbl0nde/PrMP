@@ -29,12 +29,15 @@ import com.example.calculator.ui.components.RoundButton
 import com.example.calculator.ui.components.SymbolButton
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.example.calculator.OperationStorageService
 import com.example.calculator.ui.components.TopAppBar
 
 
 @Composable
 fun CalculatorApp(viewModel: CalculatorViewModel,
-                  openCamera: () -> Unit){
+                  openCamera: () -> Unit,
+                  operationStorageService: OperationStorageService
+){
 
     val context = LocalContext.current
 
@@ -60,7 +63,8 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
         ButtonConfig(text = "+/–", onClick = { viewModel.onSymbolClicked("+/-") }),
         ButtonConfig(text = "0", onClick = { viewModel.onSymbolClicked("0") }),
         ButtonConfig(text = ",", onClick = { viewModel.onSymbolClicked(".") }),
-        ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked(context) }),
+        ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked(
+            context, operationStorageService) }),
     )
 
     val rows = buttons.chunked(4)
@@ -161,5 +165,6 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
 @Preview(showBackground = true)
 @Composable
 fun PreviewCalculatorApp() {
-    CalculatorApp(CalculatorViewModel(), openCamera = {})
+    CalculatorApp(CalculatorViewModel(), openCamera = {},
+        operationStorageService = OperationStorageService())
 }

@@ -65,7 +65,7 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel(),
         ButtonConfig(text = "+/–", onClick = { viewModel.onSymbolClicked("+/-") }),
         ButtonConfig(text = "0", onClick = { viewModel.onSymbolClicked("0") }),
         ButtonConfig(text = ",", onClick = { viewModel.onSymbolClicked(".") }),
-        ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked(context) }, weight = 2f),
+        //ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked(context) }, weight = 2f),
     )
 
     val rows = buttons.chunked(6)

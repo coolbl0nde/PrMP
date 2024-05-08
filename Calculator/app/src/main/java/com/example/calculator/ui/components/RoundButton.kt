@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.calculator.ui.screens.CalculatorApp
 import com.example.calculator.CalculatorViewModel
+import com.example.calculator.OperationStorageService
 import com.example.calculator.ui.theme.Pink80
 
 @Composable
@@ -58,5 +59,7 @@ fun RoundButton(
 @Preview(showBackground = true)
 @Composable
 fun PreviewCalculatorApp() {
-    CalculatorApp(CalculatorViewModel(), openCamera = {})
+    CalculatorApp(CalculatorViewModel(), openCamera = {},
+        operationStorageService = OperationStorageService()
+    )
 }

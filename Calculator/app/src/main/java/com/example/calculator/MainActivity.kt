@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.calculator.ui.screens.CameraPreviewScreen
+import com.example.calculator.ui.screens.OperationsScreen
 import com.example.calculator.ui.theme.LocalTheme
 
 class MainActivity : ComponentActivity() {
@@ -59,11 +60,14 @@ class MainActivity : ComponentActivity() {
         }
         val closeCamera = { shouldShowCamera = false }
 
+        val operationStorageService = OperationStorageService()
+
         Surface(modifier) {
             if (shouldShowCamera) {
-                CameraPreviewScreen(viewModel, closeCamera)
+                //CameraPreviewScreen(viewModel, closeCamera)
+                OperationsScreen(firestoreRepository = operationStorageService)
             } else {
-                AdaptiveCalculatorUI(viewModel, openCamera)
+                AdaptiveCalculatorUI(viewModel, openCamera, operationStorageService)
             }
         }
     }
