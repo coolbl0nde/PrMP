@@ -1,5 +1,7 @@
 package com.example.calculator.ui.components
 
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
@@ -16,12 +18,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.dp
 import com.example.calculator.ThemeViewModel
 import com.example.calculator.services.ThemeStorageService
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar(themeViewModel: ThemeViewModel){
+fun TopAppBar(themeViewModel: ThemeViewModel, modifier: Modifier = Modifier){
 
     var showMenu by remember { mutableStateOf(false) }
 

@@ -87,13 +87,14 @@ class CalculatorViewModel : ViewModel(){
 
 
     fun onEqualClicked(context: Context){
-        val result = evaluateMathExpression().toString()
+        var result = evaluateMathExpression().toString()
         val operationStorageService = OperationStorageService()
 
         if (result != "NaN"){
 
             if (result.endsWith(".0")){
-                result.dropLast(2)
+                result = result.dropLast(2)
+                Log.d("CalculatorViewModel", "result dropLast!")
             }
 
             operationStorageService.addOperation(
@@ -133,14 +134,15 @@ class CalculatorViewModel : ViewModel(){
     }
 
     private fun outputResult(){
-        val result = evaluateMathExpression().toString()
+        var result = evaluateMathExpression().toString()
 
         if (result != "NaN"){
             if (result.endsWith(".0")){
-                result.dropLast(2)
+                result = result.dropLast(2)
             }
+
             output = result
-        }else{
+        }else {
             output = ""
         }
     }

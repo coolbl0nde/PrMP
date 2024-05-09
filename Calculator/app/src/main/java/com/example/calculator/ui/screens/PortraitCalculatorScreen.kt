@@ -91,7 +91,7 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
             text = viewModel.output,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 10.dp)
+                .padding(bottom = 10.dp, end = 10.dp)
                 .weight(0.5f),
             textAlign = TextAlign.End,
             fontSize = 20.sp

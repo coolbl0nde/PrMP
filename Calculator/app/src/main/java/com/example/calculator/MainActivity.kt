@@ -8,6 +8,7 @@ import com.example.calculator.ui.screens.AdaptiveCalculatorUI
 import com.example.calculator.ui.theme.CalculatorTheme
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -17,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,7 +46,6 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @Composable
     fun MyApp(
-        modifier: Modifier = Modifier,
         themeViewModel: ThemeViewModel
     ) {
         val navController = rememberNavController()
@@ -60,8 +61,16 @@ class MainActivity : ComponentActivity() {
             }
         )
 
+        val configuration = LocalConfiguration.current
+        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-        Scaffold( topBar = { TopAppBar(themeViewModel) }){
+        Scaffold(
+            topBar = {
+                if (!isLandscape){
+                    TopAppBar(themeViewModel)
+                }
+            }
+        ){
             NavHost(navController = navController, startDestination = "adaptiveCalculatorUI") {
                 composable("adaptiveCalculatorUI") {
                     AdaptiveCalculatorUI(
