@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import com.example.calculator.CalculatorViewModel
+import com.example.calculator.SetupViewModel
 import com.example.calculator.ThemeViewModel
 import com.example.calculator.services.OperationStorageService
 
@@ -14,7 +15,8 @@ import com.example.calculator.services.OperationStorageService
 fun AdaptiveCalculatorUI(
     navController: NavController,
     viewModel: CalculatorViewModel,
-    themeViewModel: ThemeViewModel
+    themeViewModel: ThemeViewModel,
+    setupViewModel: SetupViewModel
 ) {
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -25,7 +27,8 @@ fun AdaptiveCalculatorUI(
         CalculatorApp(
             viewModel,
             themeViewModel,
-            navController
+            navController,
+            setupViewModel
         )
     }
 }

@@ -11,23 +11,22 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.navigation.NavHost
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.calculator.services.OperationStorageService
-import com.example.calculator.services.ThemeStorageService
 import com.example.calculator.ui.components.TopAppBar
+import com.example.calculator.ui.screens.AuthOrSetupScreen
+import com.example.calculator.ui.screens.AuthScreen
 import com.example.calculator.ui.screens.CameraScreen
 import com.example.calculator.ui.screens.OperationScreen
+import com.example.calculator.ui.screens.SetupScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -49,7 +48,7 @@ class MainActivity : ComponentActivity() {
         themeViewModel: ThemeViewModel
     ) {
         val navController = rememberNavController()
-        val viewModel = CalculatorViewModel()
+        val calculatorViewModel = CalculatorViewModel()
 
         var shouldShowCamera by remember { mutableStateOf(false) }
         val cameraPermissionRequest = rememberLauncherForActivityResult(
@@ -64,6 +63,8 @@ class MainActivity : ComponentActivity() {
         val configuration = LocalConfiguration.current
         val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
+        val setupViewModel: SetupViewModel = viewModel()
+
         Scaffold(
             topBar = {
                 if (!isLandscape){
@@ -71,19 +72,27 @@ class MainActivity : ComponentActivity() {
                 }
             }
         ){
-            NavHost(navController = navController, startDestination = "adaptiveCalculatorUI") {
+            NavHost(navController = navController, startDestination = "setupScreen") {
+                composable("setupScreen") {
+                    AuthOrSetupScreen(
+                        navController,
+                        setupViewModel
+                    )
+                }
+
                 composable("adaptiveCalculatorUI") {
                     AdaptiveCalculatorUI(
                         navController,
                         themeViewModel = themeViewModel,
-                        viewModel = viewModel
+                        viewModel = calculatorViewModel,
+                        setupViewModel = setupViewModel
                     )
                 }
                 composable("cameraScreen") {
                     cameraPermissionRequest.launch(Manifest.permission.CAMERA)
 
                     if (shouldShowCamera){
-                        CameraScreen(viewModel, navController)
+                        CameraScreen(calculatorViewModel, navController)
                     }
                 }
                 /*composable("landscapeCalculatorScreen") {
@@ -94,6 +103,13 @@ class MainActivity : ComponentActivity() {
                 }*/
                 composable("operationScreen") {
                     OperationScreen(navController)
+                }
+
+                composable("setupScreen") {
+                    SetupScreen(
+                        navController,
+                        setupViewModel
+                    )
                 }
             }
         }

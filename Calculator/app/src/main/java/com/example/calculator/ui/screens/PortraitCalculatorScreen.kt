@@ -29,14 +29,17 @@ import com.example.calculator.ui.components.SymbolButton
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.calculator.SetupViewModel
 import com.example.calculator.ThemeViewModel
+import com.example.calculator.ui.components.ChangeKeyDialog
 import com.example.calculator.ui.components.TopAppBar
 
 
 @Composable
 fun CalculatorApp(viewModel: CalculatorViewModel,
                   themeViewModel: ThemeViewModel = ThemeViewModel(),
-                  navController: NavController
+                  navController: NavController,
+                  setupViewModel: SetupViewModel
 ){
 
     val context = LocalContext.current
@@ -68,6 +71,8 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
     )
 
     val rows = buttons.chunked(4)
+
+    var showDialog by remember { mutableStateOf(false) }
 
     var currentUI by remember {
         mutableStateOf("")
@@ -116,6 +121,13 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
                 onClick = { navController.navigate("operationScreen") }
             )
 
+            SymbolButton(
+                iconId = R.drawable.outline_build_circle_24,
+                modifier = Modifier
+                    .weight(1f),
+                onClick = { showDialog = true }
+            )
+
             Spacer(Modifier.weight(2f))
 
             SymbolButton(
@@ -124,6 +136,20 @@ fun CalculatorApp(viewModel: CalculatorViewModel,
                     .weight(1f),
                 onClick = {
                     viewModel.onBackspaceClicked()
+                }
+            )
+
+            ChangeKeyDialog(
+                showDialog = showDialog,
+                setShowDialog = {showDialog = it},
+                onConfirm = {
+                    setupViewModel.setPassKey(it)
+                },
+                deleteKey = {
+                    if (it){
+                        setupViewModel.resetPassKey()
+                        navController.navigate("setupScreen")
+                    }
                 }
             )
         }

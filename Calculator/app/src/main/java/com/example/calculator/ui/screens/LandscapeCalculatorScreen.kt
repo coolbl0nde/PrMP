@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -60,7 +61,7 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
         ButtonConfig(text = "+/–", onClick = { viewModel.onSymbolClicked("+/-") }),
         ButtonConfig(text = "0", onClick = { viewModel.onSymbolClicked("0") }),
         ButtonConfig(text = ",", onClick = { viewModel.onSymbolClicked(".") }),
-        //ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked(context) }, weight = 2f),
+        ButtonConfig(text = "=", onClick = { viewModel.onEqualClicked(context) }, weight = 2f),
     )
 
     val rows = buttons.chunked(6)
@@ -112,7 +113,7 @@ fun LandscapeUI(viewModel: CalculatorViewModel = CalculatorViewModel()) {
         }
 
         Divider(
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.primary,
             thickness = 1.dp,
             modifier = Modifier.padding(5.dp)
         )
